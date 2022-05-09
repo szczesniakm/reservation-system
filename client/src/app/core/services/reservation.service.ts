@@ -13,11 +13,9 @@ export class ReservationService implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
   }
   
   getReservations(): Observable<Reservation[]> {
-    console.log("sending request...");
     return this.http.get<Reservation[]>(`${this.webApi}/reservations`);
   }
 }

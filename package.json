@@ -1,0 +1,7 @@
+{
+    "scripts": {
+        "client": "cd client && ng serve",
+        "backend": "cd server && npm run start:watch",
+        "dev": "concurrently \"npm run backend\" \"npm run client\""
+    }
+}

@@ -31,13 +31,13 @@ export class ReservationsGridComponent implements OnInit {
       error: err => console.log(err)
     });
     this.reservationsService.getReservations().subscribe(
-      data => {this.reservations = data; console.log(this.reservations);},
+      data => this.reservations = data,
       err => console.log(err)
     );
   }
 
-  async logout() {
-    await this.authService.logout();
+  logout() {
+    this.authService.logout();
     this.router.navigate(['login']);
   } 
 

@@ -2,7 +2,8 @@
 
 <ul>
     <li *ngFor="let host of hosts">
-        <p>Host: {{host.host}}</p>
+        <h2>Host: {{host.host}}</h2>
+        <p>Status: {{host.status}}</p>
         <ul>
             <ng-container *ngFor="let reservation of reservations">
                 <li *ngIf="host.host == reservation.host">
