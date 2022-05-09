@@ -1,0 +1,18 @@
+<button (click)="logout()">Wyloguj</button>
+
+<ul>
+    <li *ngFor="let host of hosts">
+        <p>Host: {{host.host}}</p>
+        <ul>
+            <ng-container *ngFor="let reservation of reservations">
+                <li *ngIf="host.host == reservation.host">
+                    <div> 
+                        <p>{{reservation.username}}</p>
+                        <p>{{reservation.start}}</p>
+                        <p>{{reservation.end}}</p>
+                    </div>
+                </li>
+            </ng-container>
+        </ul>
+    </li>
+</ul>
