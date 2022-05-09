@@ -3,13 +3,13 @@ export type JwtPayload = {
     role: string
 }
 
-export type MakeReservation = {
+export type MakeReservationRequest = {
     host: string,
     start: Date, 
     end: Date 
 }
 
-export type Login = {
+export type LoginRequest = {
     username: string,
     password: string
 }

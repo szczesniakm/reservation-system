@@ -7,7 +7,6 @@ export const createToken = (username: string, role: string) => {
         role: role
     };
     const secret = process.env.JWT_SECRET;
-    console.log(process.env);
     let token = jwt.sign(payload, secret, {
         expiresIn: process.env.JWT_EXPIRY_MINUTES,
         issuer: process.env.JWT_ISS,
