@@ -24,7 +24,7 @@ export class AuthenticationService {
       this.http.post<any>(`${this.webApi}/tokens`, body).subscribe({
         next: token => {
           this.jwtService.setToken(token.token);
-          this.isAuthenticated.next(true);
+          this.updateStatus();
           resolve();
         },
         error: err => {
@@ -40,7 +40,16 @@ export class AuthenticationService {
     this.isAuthenticated.next(false);
   }
 
+  updateStatus(): void {
+    if(this.jwtService.isTokenExpired()) {
+      this.isAuthenticated.next(false);
+      return;
+    } 
+    this.isAuthenticated.next(true);
+  }
+
   isAuthenticatedObservable(): Observable<boolean> {
+    this.updateStatus();
     return this.isAuthenticated.asObservable();
   }
 }

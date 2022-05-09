@@ -21,7 +21,7 @@ export class JwtService {
     if(!payload) {
       return true;
     }
-    const expires = Date.parse(payload.exp);
+    const expires = new Date(0).setUTCSeconds(Number(payload.exp));
     if(expires < Date.now()) {
       this.clearToken();
       return true;
@@ -35,8 +35,6 @@ export class JwtService {
 
   public getPayload(): JWTPayload | null{
     const token = this.getToken();
-        
-    console.log(token);
     if(!token) {
       return null;
     }
