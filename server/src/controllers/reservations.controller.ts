@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { inject } from "inversify";
 import { controller, httpGet, httpPost, requestBody } from "inversify-express-utils";
-import { JwtPayload, MakeReservationRequest } from "../core/application-types";
+import { JwtPayload, MakeReservationRequest } from "../core/models";
 import { TYPES } from "../core/types.core";
 import { Reservation } from "../entities/reservation.entity";
 import { ReservationRepository } from "../repositories/reservation.repository";
@@ -16,7 +16,6 @@ export class ReservationsController {
 
     @httpGet('')
     public async getAllReservations(req: Request, res: Response) {
-        console.log(req.headers);
         const reservations = await this.reservationRepository.getAll();
         return reservations;
     }
@@ -48,14 +47,15 @@ export class ReservationsController {
         req: Request & { user: JwtPayload },
         res: Response
         ) {
-        const reservation = new Reservation();
-        reservation.username = req.user.username;
-        reservation.host = body.host;
-        reservation.start = body.start;
-        reservation.end = body.end;
+
+        const reservation = new Reservation(
+            req.user.username, 
+            body.host, 
+            body.start, 
+            body.end);
 
         await this.reservationRepository.create(reservation);
-
+        
         return res.sendStatus(201);
     }
 }

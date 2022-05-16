@@ -8,7 +8,7 @@ export const users = [
 export const verifyCredentials = async (username: string, password: string) => {
     const user = users.find( u => u.username == username && u.password == password);
     if(!user) {
-        throw new BadRequestError('Invalid credentials.');
+        throw new BadRequestError('Nieprawidłowa nazwa użytkownika lub hasło.');
     }
 
     return {

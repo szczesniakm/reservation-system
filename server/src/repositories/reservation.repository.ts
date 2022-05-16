@@ -43,7 +43,7 @@ export class ReservationRepository {
     public async create(reservation: Reservation): Promise<void> {
         const repo = await this.getRepository();
         await repo.save(reservation);
-        this.logger.log('INFO', `Succesfully created reservation (${reservation.id})`);
+        this.logger.log(`Succesfully created reservation (${reservation.id})`);
     }
 
     private async getRepository(): Promise<Repository<Reservation>> {

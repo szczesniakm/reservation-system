@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken';
-import { JwtPayload } from '../core/application-types';
+import { JwtPayload } from '../core/models';
 
 export const createToken = (username: string, role: string) => {
     let payload: JwtPayload = {

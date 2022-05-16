@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import { DataSource, EntityTarget, Repository } from "typeorm";
+import { DataSource } from "typeorm";
 import { TYPES } from "../core/types.core";
 import { Reservation } from "../entities/reservation.entity";
 import { Logger } from "./logger.service";
@@ -26,10 +26,10 @@ export class DatabaseService {
                     Reservation
                 ]
             }).initialize();
-            this.logger.log('INFO', 'Database connection established.');
+            this.logger.log('Database connection established.');
             return DatabaseService.dataSource;
         } catch (e) {
-            this.logger.log('ERROR', 'Could not establish database connection.');
+            this.logger.error('Could not establish database connection.');
             process.exit(1);
         }
     }

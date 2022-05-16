@@ -1,34 +1,36 @@
-import { Request, Response } from "express";
+import { Request, response, Response } from "express";
+import { body, validationResult } from "express-validator";
 import { StatusCodes } from "http-status-codes";
 import { inject } from "inversify";
-import { controller, httpPost, requestBody } from "inversify-express-utils";
-import { LoginRequest } from "../core/application-types";
+import { controller, httpPost, request, requestBody } from "inversify-express-utils";
+import { LoginRequest } from "../core/models";
 import { TYPES } from "../core/types.core";
-import { BadRequestError } from "../errors";
+import { RequestValidationError } from "../errors/validation";
 import { createToken } from "../services/jwt.service";
 import { Logger } from "../services/logger.service";
 import { verifyCredentials } from "../services/user.service";
+
+const _loginValidators = [
+    body('username').notEmpty().withMessage('Nazwa użytkownika jest wymagana.'), 
+    body('password').notEmpty().withMessage('Hasło jest wymagane.')
+];
 
 @controller('/tokens')
 export class TokensController {
     @inject(TYPES.Logger) 
     private readonly logger: Logger;
 
-    @httpPost('')
-    public async createReservation(@requestBody() body: LoginRequest, req: Request, res: Response) {
-
-        if(!body.username || !body.password){
-            throw new BadRequestError('Login and password can not be empty.');
+    @httpPost('', ..._loginValidators)
+    public async login(@requestBody() body: LoginRequest, req: Request, res: Response) {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            throw new RequestValidationError(errors.array());
         }
 
         const user = await verifyCredentials(body.username, body.password);
-
-        if(!user) {
-            throw new BadRequestError('Invalid credentials.');
-        }
-
         const token = createToken(body.username, user.role);
 
+        this.logger.log(`${user.username} has logged in.`);
         res.status(StatusCodes.OK).json({ token: token })
     }
 }
