@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { JwtService } from './jwt.service';
 import { LoginRequest } from 'src/app/core/models/types';
+import { BackendError } from '../models/error';
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +29,7 @@ export class AuthenticationService {
           resolve();
         },
         error: err => {
-          console.log(err);
-          reject();
+          reject(err);
         }
       });
     });

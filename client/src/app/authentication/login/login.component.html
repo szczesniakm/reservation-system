@@ -1,18 +1,29 @@
-<form [formGroup]="form">
-    <fieldset>
-        <legend>Login</legend>
-        <div class="form-field">
-            <label>Username:</label>
-            <input name="username" formControlName="username">
+<div class="container">
+    <div class="card">
+        <h2 class="card-title">Zaloguj się</h2>
+        <div class="error" *ngIf="errorMessage">
+            <p>{{errorMessage}}</p>
         </div>
-        <div class="form-field">
-            <label>Password:</label>
-            <input name="password" formControlName="password" 
-                   type="password">
-        </div>
-    </fieldset>
-    <div class="form-buttons">
-        <button class="button button-primary" 
-                (click)="login()">Login</button>
+        <form [formGroup]="form">
+            <fieldset>
+                <div class="form-field">
+                    <input name="username" formControlName="username" placeholder="Nazwa użytkownika">
+                    <div class="error" *ngIf="username.invalid && username.touched">
+                        <p>Nazwa użytkownika musi składać się ze znaków alfanumerycznych.</p>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <input name="password" formControlName="password" 
+                           type="password" placeholder="Hasło">
+                    <div class="error" *ngIf="password.invalid && password.touched">
+                        <p>Hasło jest za krótkie.</p>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="form-buttons">
+                <button class="button button-primary" 
+                        (click)="login()">Login</button>
+            </div>
+        </form>
     </div>
-</form>
+</div>
