@@ -10,6 +10,7 @@ import '../controllers/hosts.controller';
 import { AuthenticationMiddleware } from '../middlewares/authentication.middleware';
 import { HostService } from '../services/host.service';
 import { ReservationService } from '../services/reservation.service';
+import { AmtService } from '../services/amt.servicet';
 
 export const container = new Container();
 container.bind(TYPES.Logger).to(Logger);
@@ -18,3 +19,4 @@ container.bind(TYPES.ReservationRepository).to(ReservationRepository);
 container.bind(TYPES.AuthenticationMiddleware).to(AuthenticationMiddleware);
 container.bind(TYPES.HostService).to(HostService);
 container.bind(TYPES.ReservationService).to(ReservationService);
+container.bind(TYPES.AmtService).to(AmtService).inSingletonScope();

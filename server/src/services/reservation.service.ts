@@ -4,6 +4,7 @@ import { TYPES } from "../core/types.core";
 import { Reservation } from "../entities/reservation.entity";
 import { BadRequestError, NotFoundError } from "../errors";
 import { ReservationRepository } from "../repositories/reservation.repository";
+import { AmtService } from "./amt.servicet";
 import { HostService } from "./host.service";
 import { Logger } from "./logger.service";
 
@@ -23,6 +24,9 @@ export class ReservationService {
     @inject(TYPES.HostService) 
     private readonly hostService: HostService;
 
+    @inject(TYPES.AmtService)
+    private readonly amtService: AmtService;
+
     public async create(username: string, hostname: string, start: Date, end: Date) {
         const host = await this.hostService.getHost(hostname);
             if(!host)
@@ -39,6 +43,8 @@ export class ReservationService {
         );
 
         await this.reservationRepository.create(reservation);
+
+        this.amtService.addReservation(reservation);
     }
 
     public async getAvaliableSlots(selectedHost?: string) {
