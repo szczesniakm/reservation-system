@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import { Between, Repository } from "typeorm";
+import { Between, LessThan, MoreThan, Repository } from "typeorm";
 import { TYPES } from "../core/types.core";
 import { Reservation } from "../entities/reservation.entity";
 import { DatabaseService } from "../services/database.service";
@@ -23,10 +23,39 @@ export class ReservationRepository {
         })
     }
     
+    public async getByHost(host: string): Promise<Reservation[]> {
+        const repo = await this.getRepository();
+        return repo.find({
+            where: {
+                host: host
+            }
+        })
+    }
+
     public async getAll() {
         const repo = await this.getRepository();
         return repo.find();
     }
+
+    public async getUpcomingReservations(): Promise<Reservation[]> {
+        const repo = await this.getRepository();
+        return repo.find({
+            where: {
+                end: MoreThan(new Date())
+            }
+        });
+    }
+
+    public async getUpcomingReservationsByHost(host: string): Promise<Reservation[]> {
+        const repo = await this.getRepository();
+        return repo.find({
+            where: {
+                end: MoreThan(new Date()),
+                host: host
+            }, 
+        });
+    }
+
 
     public async getReservationsBetween(start: Date, end: Date) {
         const repo = await this.getRepository();
@@ -36,6 +65,19 @@ export class ReservationRepository {
             where: [
                 { start: filter },
                 { end: filter }
+            ]
+        });
+    }
+
+    public async isHostAvalliableBetween(start: Date, end: Date, host: string) {
+        const repo = await this.getRepository();
+        const filter = Between(start, end);
+        
+        return repo.find({
+            where: [
+                { host: host, start: filter },
+                { host: host, end: filter },
+                { host: host, start: LessThan(start), end: MoreThan(start) }
             ]
         });
     }

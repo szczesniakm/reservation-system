@@ -1,0 +1,17 @@
+<div class="container">
+  <p-card *ngFor="let host of slots" styleClass="host-container">
+    {{host.host}}
+    <p-card *ngFor="let slot of host.slots" (click)="selectSlot(host.host, slot)">
+      Od: {{slot.from | date:'short' }} - do {{slot.to | date:'short' }}
+    </p-card>
+
+    <div *ngIf="selectedSlot && host.host == selectedHost">
+        <form [formGroup]="reservationForm" (ngSubmit)="makeReservation()">
+          <p-calendar formControlName="start" [minDate]="minDate" [showTime]="true" [hourFormat]="'24'"></p-calendar>
+          <p-calendar formControlName="end" [minDate]="minDate" [maxDate]="maxDate" [showTime]="true" [hourFormat]="'24'"></p-calendar>
+
+          <p-button type="submit">Zarezerwuj</p-button>
+        </form>
+    </div>
+  </p-card>
+</div>

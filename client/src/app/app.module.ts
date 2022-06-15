@@ -9,6 +9,8 @@ import { CoreModule } from './core/core.module';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { ReservationsModule } from './reservations/reservations.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { ReservationsModule } from './reservations/reservations.module';
     AppRoutingModule,
     CoreModule,
     AuthenticationModule,
-    ReservationsModule
+    ReservationsModule,
+    BrowserAnimationsModule,
+    ToastModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

@@ -21,6 +21,6 @@ export function handleError(error: Error, req: Request, res: Response, next: Nex
         };
         return res.status(response.statusCode).json(response);
     } 
-    
+    console.log(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Wystąpił nieoczekiwany błąd." });
 }

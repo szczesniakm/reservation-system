@@ -2,9 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { LoginRequest } from '../models/models';
 import { JwtService } from './jwt.service';
-import { LoginRequest } from 'src/app/core/models/types';
-import { BackendError } from '../models/error';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +15,7 @@ export class AuthenticationService {
   constructor(
     private jwtService: JwtService,
     private http: HttpClient
-  ) { 
+  ) {
     this.isAuthenticated.next(!jwtService.isTokenExpired())
   }
 
@@ -44,7 +43,7 @@ export class AuthenticationService {
     if(this.jwtService.isTokenExpired()) {
       this.isAuthenticated.next(false);
       return;
-    } 
+    }
     this.isAuthenticated.next(true);
   }
 

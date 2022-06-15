@@ -1,0 +1,17 @@
+<form [formGroup]="searchAvaliableForm" (ngSubmit)="searchForAvaliableHosts()">
+    <p-autoComplete formControlName="host" [suggestions]="filteredHosts"
+        (completeMethod)="searchHosts($event.query)" (onSelect)="selected()" placeholder="Wszystkie" field="host" [dropdown]="true" [forceSelection]="true">
+        <ng-template let-item pTemplate="item">
+            <div>{{item.host}}</div>
+        </ng-template>
+    </p-autoComplete>
+
+
+    <p-button type="submit" label="Wyszukaj" icon="pi pi-search" [loading]="isFetching"></p-button>
+    <!-- <p-autoComplete formControlName="os" [suggestions]="filteredOs"
+        (completeMethod)="searchOs($event.query)" placeholder="Wszystkie" field="name" [dropdown]="true" (onBlur)="dsa()">
+        <ng-template let-os pTemplate="item">
+            <div>{{os.name}}</div>
+        </ng-template>
+    </p-autoComplete> -->
+</form>

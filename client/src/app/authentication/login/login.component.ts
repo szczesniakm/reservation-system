@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BackendError } from 'src/app/core/models/error';
-import { LoginRequest } from 'src/app/core/models/types';
+import { LoginRequest } from 'src/app/core/models/models';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 
 @Component({
@@ -16,8 +16,8 @@ export class LoginComponent implements OnInit {
   errorMessage?: string;
 
   constructor(
-    private fb:FormBuilder, 
-    private authService: AuthenticationService, 
+    private fb:FormBuilder,
+    private authService: AuthenticationService,
     private router: Router) {
 
       this.form = this.fb.group({

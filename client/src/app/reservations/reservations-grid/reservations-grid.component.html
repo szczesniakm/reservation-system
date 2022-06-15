@@ -1,19 +1,4 @@
-<button (click)="logout()">Wyloguj</button>
 
-<ul>
-    <li *ngFor="let host of hosts">
-        <h2>Host: {{host.host}}</h2>
-        <p>Status: {{host.status}}</p>
-        <ul>
-            <ng-container *ngFor="let reservation of reservations">
-                <li *ngIf="host.host == reservation.host">
-                    <div> 
-                        <p>{{reservation.username}}</p>
-                        <p>{{reservation.start}}</p>
-                        <p>{{reservation.end}}</p>
-                    </div>
-                </li>
-            </ng-container>
-        </ul>
-    </li>
-</ul>
+
+<app-search-avaliable-hosts [allHosts]="hosts" [isFetching]="isLoadingSlots" (onSearchSubmit)="updateSlots($event)"></app-search-avaliable-hosts>
+<app-slot-list *ngIf="slots" [slots]="slots" (onReservationSubmit)="makeReservation($event)"></app-slot-list>

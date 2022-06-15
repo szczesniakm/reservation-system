@@ -6,6 +6,11 @@ import { TYPES } from "../core/types.core";
 import { Reservation } from "../entities/reservation.entity";
 import { ReservationRepository } from "../repositories/reservation.repository";
 import { Logger } from "../services/logger.service";
+import { ReservationService } from "../services/reservation.service";
+
+export interface AvaliableSlotsParams {
+    host?: string;
+}
 
 @controller('/reservations', TYPES.AuthenticationMiddleware)
 export class ReservationsController {
@@ -14,6 +19,9 @@ export class ReservationsController {
     @inject(TYPES.ReservationRepository) 
     private readonly reservationRepository: ReservationRepository;
 
+    @inject(TYPES.ReservationService) 
+    private readonly reservationService: ReservationService;
+    
     @httpGet('')
     public async getAllReservations(req: Request, res: Response) {
         const reservations = await this.reservationRepository.getAll();
@@ -28,6 +36,12 @@ export class ReservationsController {
         const reservations = await this.reservationRepository.getReservationsBetween(new Date(start), new Date(end));
 
         return reservations;
+    }
+
+    @httpGet('/avaliableSlots')
+    public async getAvaliableSlots(req: Request<{}, {}, {}, AvaliableSlotsParams>, res: Response) {
+        const host = req.query.host;
+        return await this.reservationService.getAvaliableSlots(host);
     }
 
     @httpGet('/:reservationId')
@@ -48,14 +62,11 @@ export class ReservationsController {
         res: Response
         ) {
 
-        const reservation = new Reservation(
-            req.user.username, 
+        await this.reservationService.create(req.user.username, 
             body.host, 
-            body.start, 
-            body.end);
-
-        await this.reservationRepository.create(reservation);
+            body.start ? new Date(body.start) : new Date(), 
+            new Date(body.end));
         
-        return res.sendStatus(201);
+        return res.status(201).send();
     }
 }
